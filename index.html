@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MENTOR">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>MENTOR</title>
+  <style>
+    :root{--bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f2;--text:#171719;--muted:#77777f;--line:#e5e5e9;--accent:#242426;--green:#248a55;--greenbg:#e7f4ec;--red:#c24d4d;--shadow:0 8px 28px rgba(20,20,25,.045)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    body.dark{--bg:#111113;--surface:#1b1b1e;--surface2:#26262a;--text:#f5f5f7;--muted:#a1a1aa;--line:#343439;--accent:#f5f5f7;--green:#6bd49a;--greenbg:#193326;--red:#ef7777;--shadow:0 8px 28px rgba(0,0,0,.16)}
+    button,input{font:inherit} button{cursor:pointer} .app{max-width:760px;margin:0 auto;padding:env(safe-area-inset-top) 20px calc(100px + env(safe-area-inset-bottom))}
+    header{display:flex;justify-content:space-between;align-items:center;padding:26px 2px 18px}.brand{font-size:13px;letter-spacing:.22em;font-weight:800}.date{font-size:12px;color:var(--muted);margin-top:5px}.avatar{width:38px;height:38px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:16px}
+    h1{font-size:34px;letter-spacing:-.045em;line-height:1.05;margin:18px 0 8px;font-weight:720}.sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+    .hero{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);margin-bottom:16px}.hero-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-weight:700}.wake{font-size:29px;font-weight:700;letter-spacing:-.04em;margin-top:7px}.hero-note{font-size:13px;color:var(--muted);margin-top:4px}.pill{background:var(--surface2);border-radius:99px;padding:7px 10px;font-size:11px;color:var(--muted);white-space:nowrap}
+    .progressline{height:7px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:20px}.progressfill{height:100%;width:0;background:var(--green);border-radius:99px;transition:width .25s}.progressmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:9px}
+    .sectionhead{display:flex;align-items:center;justify-content:space-between;margin:25px 2px 12px}.sectionhead h2{font-size:18px;letter-spacing:-.025em;margin:0}.small-action{border:0;background:transparent;color:var(--muted);font-size:13px;padding:8px}
+    .habit-list{display:grid;gap:9px}.habit{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:14px 15px;min-height:68px}.check{width:25px;height:25px;border:1.5px solid #b8b8c0;border-radius:50%;background:transparent;display:grid;place-items:center;flex:0 0 auto;color:white}.habit.done .check{background:var(--green);border-color:var(--green)}.check svg{width:14px;height:14px}.habit-main{min-width:0;flex:1}.habit-name{font-size:14px;font-weight:620}.habit-target{font-size:12px;color:var(--muted);margin-top:4px}.habit-streak{font-size:11px;color:var(--muted);white-space:nowrap}.habit.done .habit-name{color:var(--muted);text-decoration:line-through}
+    .empty{background:var(--surface);border:1px dashed var(--line);border-radius:18px;padding:25px;text-align:center;color:var(--muted);font-size:13px;line-height:1.5}
+    .primary{background:var(--accent);color:var(--bg);border:0;border-radius:14px;padding:14px 18px;font-weight:650;font-size:14px;width:100%;min-height:48px}.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:13px;padding:11px 14px;font-size:13px;font-weight:600}.danger{color:var(--red)}.startbox{text-align:center;padding:28px 20px}.startbox p{color:var(--muted);font-size:14px;line-height:1.5;margin:8px 0 20px}
+    .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:15px}.stat{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:16px}.stat-value{font-size:25px;font-weight:720;letter-spacing:-.04em}.stat-label{font-size:11px;color:var(--muted);margin-top:5px}
+    .page{display:none}.page.active{display:block}.bottom{position:fixed;z-index:5;bottom:0;left:0;right:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-top:1px solid var(--line)}.nav{max-width:560px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav button{border:0;background:transparent;color:var(--muted);padding:7px 2px 5px;border-radius:12px;font-size:10px;display:grid;justify-items:center;gap:4px}.nav button.active{color:var(--text);font-weight:700}.nav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+    .panel{background:var(--surface);border:1px solid var(--line);border-radius:19px;padding:17px;margin:12px 0}.panel h3{font-size:15px;margin:0 0 13px}.field{display:grid;gap:7px;margin:12px 0}.field label{font-size:12px;color:var(--muted);font-weight:600}.field input{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:12px;padding:13px;font-size:16px;min-height:46px;outline:none}.field input:focus{border-color:var(--muted)}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0;flex:1}.habit-setting{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.habit-setting:last-child{border:0}.habit-setting strong{font-size:13px}.habit-setting small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.iconbtn{border:0;background:var(--surface2);color:var(--muted);border-radius:10px;padding:9px 11px}
+    .exercise-row{display:grid;grid-template-columns:1.4fr .7fr .7fr;gap:8px;margin:8px 0}.exercise-row input{min-width:0;width:100%;padding:11px 9px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--text);font-size:14px}.muted{color:var(--muted)}.workout-card{padding:15px 0;border-bottom:1px solid var(--line)}.workout-card:last-child{border:0}.workout-card strong{font-size:14px}.workout-card p{font-size:12px;color:var(--muted);margin:5px 0 0}.notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px}
+    .toggle{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}.switch{width:46px;height:27px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);position:relative}.switch:after{content:"";position:absolute;width:21px;height:21px;left:2px;top:2px;background:white;border-radius:50%;transition:transform .2s}.switch.on{background:var(--green)}.switch.on:after{transform:translateX(19px)}
+    @media(min-width:650px){.app{padding-left:30px;padding-right:30px}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header><div><div class="brand">MENTOR</div><div class="date" id="headerDate"></div></div><div class="avatar">✳</div></header>
+
+  <main id="todayPage" class="page active">
+    <h1 id="greeting">Make today count.</h1><p class="sub">Small promises. Kept daily.</p>
+    <section class="hero">
+      <div class="hero-top"><div><div class="eyebrow">Your day</div><div class="wake" id="wakeTime">Not started</div><div class="hero-note" id="wakeNote">Start your day when you wake up.</div></div><div class="pill" id="dayPill">Waiting to begin</div></div>
+      <div class="progressline"><div class="progressfill" id="progressFill"></div></div><div class="progressmeta"><span id="progressText">0 of 0 completed</span><span id="progressPercent">0%</span></div>
+    </section>
+    <div id="startBox" class="panel startbox"><div style="font-size:27px">☀️</div><h2 style="font-size:19px;margin:10px 0 0">Ready when you are.</h2><p>Tap below when you wake up. MENTOR will record the time and open a fresh day.</p><button class="primary" id="startDayBtn">START MY DAY</button></div>
+    <div id="habitArea" style="display:none">
+      <div class="sectionhead"><h2>Today's habits</h2><button class="small-action" id="manageHabitsBtn">Edit habits</button></div>
+      <div class="habit-list" id="habitList"></div>
+      <div class="stats"><div class="stat"><div class="stat-value" id="todayDone">0/0</div><div class="stat-label">Habits completed</div></div><div class="stat"><div class="stat-value" id="todayStreak">0</div><div class="stat-label">Perfect-day streak</div></div></div>
+      <p class="notice">Your day only resets when you press “Start my day” again. Your previous checklist is saved.</p>
+    </div>
+  </main>
+
+  <main id="gymPage" class="page">
+    <h1>Train with intent.</h1><p class="sub">Log the work. See the progress.</p>
+    <section class="panel">
+      <h3>Log a workout</h3>
+      <div class="field"><label for="workoutName">Workout name</label><input id="workoutName" placeholder="e.g. Push day"></div>
+      <div id="exerciseRows"></div>
+      <button class="secondary" id="addExerciseBtn" type="button">＋ Add exercise</button>
+      <div style="margin-top:15px"><button class="primary" id="saveWorkoutBtn">SAVE WORKOUT</button></div>
+      <p class="notice">Enter one row per exercise: exercise name, weight (kg), and reps. Add another row for each set if you want to track sets individually.</p>
+    </section>
+    <div class="sectionhead"><h2>Workout history</h2><span class="muted" style="font-size:12px" id="workoutCount">0 sessions</span></div>
+    <section class="panel" id="workoutHistory"><div class="empty">Your saved workouts will appear here.</div></section>
+  </main>
+
+  <main id="progressPage" class="page">
+    <h1>Your progress.</h1><p class="sub">Consistency is built one day at a time.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-value" id="totalDays">0</div><div class="stat-label">Days started</div></div>
+      <div class="stat"><div class="stat-value" id="bestStreak">0</div><div class="stat-label">Best perfect streak</div></div>
+      <div class="stat"><div class="stat-value" id="workoutTotal">0</div><div class="stat-label">Workouts logged</div></div>
+      <div class="stat"><div class="stat-value" id="habitRate">—</div><div class="stat-label">Habit completion</div></div>
+    </div>
+    <div class="sectionhead"><h2>Recent days</h2></div><section class="panel" id="recentDays"><div class="empty">Start your first day to see your history.</div></section>
+    <div class="sectionhead"><h2>Habit streaks</h2></div><section class="panel" id="streakList"><div class="empty">Your habit streaks will appear here.</div></section>
+  </main>
+
+  <main id="settingsPage" class="page">
+    <h1>Make it yours.</h1><p class="sub">Set up the habits you want to keep.</p>
+    <section class="panel">
+      <h3>Add a habit</h3>
+      <form id="habitForm">
+        <div class="field"><label for="habitName">Habit name</label><input id="habitName" required maxlength="45" placeholder="e.g. Eat 2500 calories"></div>
+        <div class="field"><label for="habitTarget">Optional target or note</label><input id="habitTarget" maxlength="55" placeholder="e.g. 2500 kcal"></div>
+        <button class="primary" type="submit">ADD HABIT</button>
+      </form>
+    </section>
+    <section class="panel"><h3>Your habits</h3><div id="habitSettingsList"><div class="empty">No habits yet. Add your first one above.</div></div></section>
+    <section class="panel">
+      <h3>Appearance</h3>
+      <div class="toggle"><span>Dark appearance</span><button class="switch" id="themeSwitch" aria-label="Toggle dark appearance" type="button"></button></div>
+      <p class="notice">Your data is saved on this device. It is not uploaded to an account or server. If you clear Safari website data or remove the app's website data, local records may be erased.</p>
+    </section>
+  </main>
+</div>
+
+<nav class="bottom"><div class="nav">
+  <button class="active" data-page="todayPage"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>Today</span></button>
+  <button data-page="gymPage"><svg viewBox="0 0 24 24"><path d="M4 9v6m4-9v12m8-12v12m4-9v6M2 12h20"/></svg><span>Gym</span></button>
+  <button data-page="progressPage"><svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h17M7 15l4-4 3 2 6-7"/></svg><span>Progress</span></button>
+  <button data-page="settingsPage"><svg viewBox="0 0 24 24"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="m19.4 15 .1.1a1.7 1.7 0 1 1-2.4 2.4l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a1.7 1.7 0 1 1-3.4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1a1.7 1.7 0 1 1-2.4-2.4l.1-.1a1.7 1.7 0 0 0-1.2-2.9H4a1.7 1.7 0 1 1 0-3.4h.2a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a1.7 1.7 0 1 1 2.4-2.4l.1.1a1.7 1.7 0 0 0 2.9-1.2V2a1.7 1.7 0 1 1 3.4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a1.7 1.7 0 1 1 2.4 2.4l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.2a1.7 1.7 0 1 1 0 3.4h-.2a1.7 1.7 0 0 0-1.2 2.9Z"/></svg><span>Settings</span></button>
+</div></nav>
+
+<script>
+(() => {
+  const KEY='mentor-v1-data';
+  const $=id=>document.getElementById(id);
+  const todayKey=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
+  const fmtTime=d=>new Date(d).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  const fmtDate=s=>new Date(s+'T12:00:00').toLocaleDateString([], {weekday:'short',month:'short',day:'numeric'});
+  const fresh=()=>({habits:[],sessions:[],activeId:null,workouts:[],dark:false});
+  let data;
+  try{data=JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){data=fresh()}
+  const save=()=>localStorage.setItem(KEY,JSON.stringify(data));
+  const active=()=>data.sessions.find(s=>s.id===data.activeId)||null;
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const iconCheck='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3.2 3.2L13 4.8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function streakFor(habitId){
+    let n=0; const sessions=[...data.sessions].sort((a,b)=>b.startedAt-a.startedAt);
+    for(const s of sessions){const item=s.items.find(i=>i.id===habitId);if(!item)continue;if(item.done)n++;else break;}
+    return n;
+  }
+  function perfectStreak(){
+    let n=0;const sessions=[...data.sessions].sort((a,b)=>b.startedAt-a.startedAt);
+    for(const s of sessions){if(!s.items.length||!s.items.every(i=>i.done))break;n++}return n;
+  }
+  function setPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+    if(id==='progressPage')renderProgress(); if(id==='gymPage')renderWorkouts(); if(id==='settingsPage')renderHabitSettings();
+  }
+  document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.page)));
+  $('headerDate').textContent=new Date().toLocaleDateString([], {weekday:'long',month:'long',day:'numeric'});
+  function renderToday(){
+    const s=active(), started=!!s;
+    $('startBox').style.display=started?'none':'block';$('habitArea').style.display=started?'block':'none';
+    $('wakeTime').textContent=started?fmtTime(s.startedAt):'Not started';
+    $('wakeNote').textContent=started?'Your day started here.':'Start your day when you wake up.';
+    $('dayPill').textContent=started?'Day in progress':'Waiting to begin';
+    const items=started?s.items:[];
+    const done=items.filter(i=>i.done).length, pct=items.length?Math.round(done/items.length*100):0;
+    $('progressFill').style.width=pct+'%';$('progressText').textContent=`${done} of ${items.length} completed`;$('progressPercent').textContent=pct+'%';
+    $('todayDone').textContent=`${done}/${items.length}`;$('todayStreak').textContent=perfectStreak();
+    $('habitList').innerHTML=items.length?items.map(i=>`<div class="habit ${i.done?'done':''}"><button class="check" data-check="${i.id}" aria-label="${i.done?'Mark incomplete':'Mark complete'}">${i.done?iconCheck:''}</button><div class="habit-main"><div class="habit-name">${esc(i.name)}</div>${i.target?`<div class="habit-target">${esc(i.target)}</div>`:''}</div><div class="habit-streak">🔥 ${streakFor(i.id)}</div></div>`).join(''):'<div class="empty">No habits added yet. Go to Settings to create your checklist.</div>';
+    $('habitList').querySelectorAll('[data-check]').forEach(b=>b.addEventListener('click',()=>{const item=s.items.find(i=>i.id===b.dataset.check);if(item){item.done=!item.done;save();renderToday()}}));
+  }
+  $('startDayBtn').addEventListener('click',()=>{
+    if(active()&&!confirm('Start a new day? Your current checklist will be saved as yesterday’s session.'))return;
+    const now=Date.now();const session={id:String(now),startedAt:now,date:todayKey(),items:data.habits.filter(h=>h.enabled!==false).map(h=>({id:h.id,name:h.name,target:h.target||'',done:false}))};
+    data.sessions.push(session);data.activeId=session.id;save();renderToday();
+  });
+  $('manageHabitsBtn').addEventListener('click',()=>setPage('settingsPage'));
+  $('habitForm').addEventListener('submit',e=>{
+    e.preventDefault();const name=$('habitName').value.trim(),target=$('habitTarget').value.trim();if(!name)return;
+    data.habits.push({id:'h'+Date.now()+Math.random().toString(16).slice(2,6),name,target,enabled:true});save();$('habitName').value='';$('habitTarget').value='';renderHabitSettings();renderToday();
+  });
+  function renderHabitSettings(){
+    $('habitSettingsList').innerHTML=data.habits.length?data.habits.map(h=>`<div class="habit-setting"><div><strong>${esc(h.name)}</strong><small>${esc(h.target||'No target set')}</small></div><button class="iconbtn danger" data-remove="${h.id}">Remove</button></div>`).join(''):'<div class="empty">No habits yet. Add your first one above.</div>';
+    $('habitSettingsList').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{if(confirm('Remove this habit from future days? Past records will remain.')){data.habits=data.habits.filter(h=>h.id!==b.dataset.remove);save();renderHabitSettings();renderToday()}}));
+  }
+  let rowCount=0;
+  function addExerciseRow(name='',weight='',reps=''){
+    const id=++rowCount;const div=document.createElement('div');div.className='exercise-row';div.innerHTML=`<input aria-label="Exercise name" placeholder="Exercise" value="${esc(name)}"><input aria-label="Weight in kg" type="number" min="0" step="0.5" placeholder="kg" value="${esc(weight)}"><input aria-label="Reps" type="number" min="0" step="1" placeholder="reps" value="${esc(reps)}">`; $('exerciseRows').appendChild(div);
+  }
+  addExerciseRow();$('addExerciseBtn').addEventListener('click',()=>addExerciseRow());
+  $('saveWorkoutBtn').addEventListener('click',()=>{
+    const exercises=[...$('exerciseRows').querySelectorAll('.exercise-row')].map(r=>{const x=r.querySelectorAll('input');return {name:x[0].value.trim(),weight:Number(x[1].value)||0,reps:Number(x[2].value)||0}}).filter(x=>x.name);
+    if(!exercises.length){alert('Add at least one exercise before saving.');return}
+    data.workouts.unshift({id:String(Date.now()),name:$('workoutName').value.trim()||'Workout',date:todayKey(),at:Date.now(),exercises});save();
+    $('workoutName').value='';$('exerciseRows').innerHTML='';rowCount=0;addExerciseRow();renderWorkouts();alert('Workout saved.');
+  });
+  function renderWorkouts(){
+    $('workoutCount').textContent=`${data.workouts.length} session${data.workouts.length===1?'':'s'}`;
+    $('workoutHistory').innerHTML=data.workouts.length?data.workouts.map(w=>`<div class="workout-card"><strong>${esc(w.name)}</strong><p>${fmtDate(w.date)} · ${w.exercises.length} exercise entries</p><p>${w.exercises.map(x=>`${esc(x.name)} — ${x.weight} kg × ${x.reps}`).join('<br>')}</p></div>`).join(''):'<div class="empty">Your saved workouts will appear here.</div>';
+  }
+  function renderProgress(){
+    $('totalDays').textContent=data.sessions.length;$('bestStreak').textContent=bestPerfect();$('workoutTotal').textContent=data.workouts.length;
+    let total=0,done=0;data.sessions.forEach(s=>s.items.forEach(i=>{total++;if(i.done)done++}));
+    $('habitRate').textContent=total?Math.round(done/total*100)+'%':'—';
+    const recent=[...data.sessions].sort((a,b)=>b.startedAt-a.startedAt).slice(0,8);
+    $('recentDays').innerHTML=recent.length?recent.map(s=>{const d=s.items.filter(i=>i.done).length,p=s.items.length?Math.round(d/s.items.length*100):0;return `<div class="habit-setting"><div><strong>${fmtDate(s.date)}</strong><small>Started ${fmtTime(s.startedAt)}</small></div><strong>${p}%</strong></div>`}).join(''):'<div class="empty">Start your first day to see your history.</div>';
+    $('streakList').innerHTML=data.habits.length?data.habits.map(h=>`<div class="habit-setting"><div><strong>${esc(h.name)}</strong><small>${esc(h.target||'')}</small></div><strong>🔥 ${streakFor(h.id)}</strong></div>`).join(''):'<div class="empty">Add habits to start tracking streaks.</div>';
+  }
+  function bestPerfect(){let best=0,n=0;const ss=[...data.sessions].sort((a,b)=>a.startedAt-b.startedAt);ss.forEach(s=>{if(s.items.length&&s.items.every(i=>i.done)){n++;best=Math.max(best,n)}else n=0});return best}
+  $('themeSwitch').addEventListener('click',()=>{data.dark=!data.dark;save();applyTheme()});
+  function applyTheme(){document.body.classList.toggle('dark',!!data.dark);$('themeSwitch').classList.toggle('on',!!data.dark)}
+  applyTheme();renderToday();renderHabitSettings();renderWorkouts();
+})();
+</script>
+<script>if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});</script>
+</body>
+</html>
