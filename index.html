@@ -134,6 +134,13 @@
   $('headerDate').textContent=new Date().toLocaleDateString([], {weekday:'long',month:'long',day:'numeric'});
   function renderToday(){
     const s=active(), started=!!s;
+    // Add any habits created after this day began to the active checklist.
+    if(s){
+      data.habits.filter(h=>h.enabled!==false).forEach(h=>{
+        if(!s.items.some(i=>i.id===h.id)) s.items.push({id:h.id,name:h.name,target:h.target||'',done:false});
+      });
+      save();
+    }
     $('startBox').style.display=started?'none':'block';$('habitArea').style.display=started?'block':'none';
     $('wakeTime').textContent=started?fmtTime(s.startedAt):'Not started';
     $('wakeNote').textContent=started?'Your day started here.':'Start your day when you wake up.';
@@ -153,7 +160,11 @@
   $('manageHabitsBtn').addEventListener('click',()=>setPage('settingsPage'));
   $('habitForm').addEventListener('submit',e=>{
     e.preventDefault();const name=$('habitName').value.trim(),target=$('habitTarget').value.trim();if(!name)return;
-    data.habits.push({id:'h'+Date.now()+Math.random().toString(16).slice(2,6),name,target,enabled:true});save();$('habitName').value='';$('habitTarget').value='';renderHabitSettings();renderToday();
+    const habit={id:'h'+Date.now()+Math.random().toString(16).slice(2,6),name,target,enabled:true};
+    data.habits.push(habit);
+    const current=active();
+    if(current) current.items.push({id:habit.id,name:habit.name,target:habit.target||'',done:false});
+    save();$('habitName').value='';$('habitTarget').value='';renderHabitSettings();renderToday();
   });
   function renderHabitSettings(){
     $('habitSettingsList').innerHTML=data.habits.length?data.habits.map(h=>`<div class="habit-setting"><div><strong>${esc(h.name)}</strong><small>${esc(h.target||'No target set')}</small></div><button class="iconbtn danger" data-remove="${h.id}">Remove</button></div>`).join(''):'<div class="empty">No habits yet. Add your first one above.</div>';
